@@ -1,11 +1,13 @@
 import urllib2
-import xbmc
-import xbmcgui
 import sys
+import xbmc
+import xbmcaddon
+import xbmcgui
+import xbmcplugin
 
 # Add on info
 __addon__ 		= xbmcaddon.Addon()
-__addon_id__ 	= __plugin__.getAddonInfo('id')
+__addon_id__ 	= __addon__.getAddonInfo('id')
 __addon_id_int__ = int(sys.argv[1])
 __addon_dir__ 	= xbmc.translatePath(__addon__.getAddonInfo('path'))
 
@@ -26,8 +28,8 @@ def get_params():
 
 		for p in pair_params:
 			split = p.split('=')
-			# Append dictionary mapping of key : value to the params list
-			params.append({split[0]:split[1]})
+			# Set dictionary mapping of key : value
+			params[split[0]] = split[1]
 
 	return params
 
@@ -41,12 +43,14 @@ def add_video_link(title, url):
 	list_item = xbmcgui.ListItem(title)
 	list_item.setProperty('IsPlayable', 'true')
 
-	return xbmcplugin.addDirectoryItem(__addonidint__, url, listitem)
+	return xbmcplugin.addDirectoryItem(__addon_id_int__, youtube_url, list_item)
 
-def add_next_page():
+def add_next_page(page_no):
+	page_no = str(page_no)
 	list_item = xbmcgui.ListItem('Next Page')
+	url = sys.argv[0] + '?page_no=' + page_no
 
-	return xbmcplugin.addDirectoryItem(__addonidint__, url=None, list_item)
+	return xbmcplugin.addDirectoryItem(__addon_id_int__, url=url, listitem=list_item, isFolder=True)
 
 def end_directory():
 	return xbmcplugin.endOfDirectory(__addon_id_int__)
