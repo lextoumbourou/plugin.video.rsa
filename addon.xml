@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="plugin.video.rsa_animate" name="RSA Animate" version="0.0.1" provider-name="lextoumbourou">
+	<requires>
+		<import addon="xbmc.python" version="2.0"/>
+		<import addon="script.module.beautifulsoup"/>
+		<import addon="plugin.video.youtube"/>
+	</requires>
+	<extension point="xbmc.python.pluginsource" library="default.py">
+		<provides>video</provides>
+	</extension>
+  <extension point="xbmc.addon.metadata">
+		<platform>all</platform>
+		<summary>Browse and stream videos from RSA Animate</summary>
+		<description>Get your knowledge on.</description>
+  </extension>
+</addon>
