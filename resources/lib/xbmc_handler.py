@@ -50,7 +50,7 @@ def add_next_page(page_no):
 	list_item = xbmcgui.ListItem('Next Page')
 	url = sys.argv[0] + '?page_no=' + page_no
 
-	return xbmcplugin.addDirectoryItem(__addon_id_int__, url=url, listitem=list_item, isFolder=True)
+	return xbmcplugin.addDirectoryItem(__addon_id_int__, url=url, listitem=list_item, isFolder=True, totalItems=5)
 
 def end_directory():
 	return xbmcplugin.endOfDirectory(__addon_id_int__)
