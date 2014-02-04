@@ -51,11 +51,20 @@ def scrape_site(contents):
 		# Get the dates
 		date = post.find('p', 'postmetadata').find('span', 'alignleft')
 		# Get the Youtube URLs
-		url = post.find('object').find('embed')['src']
+		ifram = (post.findAll('p')[1]).find('iframe')
+		if ifram is not None:
+			url = ifram["src"]
+			if url.startswith("//www.youtube.com/"):
+				url = "http:" + url 
+		else: 
+			obj = post.findAll('p')[1].find('object')
+			for param in obj.findAll("param"):
+				if param["name"] in ["movie", "src"]:
+					url = param["value"]
 
-		final_title = title + ' (' + date.string + ')'
-
-		output.append({'title':final_title,
+		if url is not None and url.startswith("http://www.youtube.com/"):
+			final_title = title + ' (' + date.string + ')'
+			output.append({'title':final_title,
 							'url':url})
 
 	return output
