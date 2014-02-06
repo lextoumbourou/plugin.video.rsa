@@ -1,32 +1,49 @@
 import sys
 import xbmcaddon
+from xbmcswift2 import Plugin
 
 from resources.lib import scraper, xbmc_handler
 
-### get addon info
-__addon__ = xbmcaddon.Addon()
-__addonid__ = __addon__.getAddonInfo('id')
-__addonidint__ = int(sys.argv[1])
+plugin = Plugin()
 
+@plugin.route('/')
+def index():
+    items = [{
+        'label': 'RSA Animate',
+        'path': plugin.url_for('rsa_animate', page_no=1),
+    }]
 
-def main(params):
-    # See if page number is set, or set it to 1
-    try:
-        page_no = int(params['page_no'])
-    except:
+    return items
+
+@plugin.route('/rsa_animate/<page_no>')
+def rsa_animate(page_no):
+    if page_no is None:
         page_no = 1
+    else:
+        page_no = int(page_no) + 1
 
     contents = scraper.open_page(
         'http://comment.rsablogs.org.uk/videos/page/{0}'.format(page_no)
     )
+
     video_list = scraper.scrape_site(contents)
+    youtube_url = (
+        'plugin://plugin.video.youtube?action=play_video&videoid={0}')
 
+    items = []
     for video in video_list:
-        xbmc_handler.add_video_link(video['title'], video['url'])
+        items.append({
+            'label': video['title'],
+            'path': youtube_url.format(video['url'])
+         })
 
-    xbmc_handler.add_next_page(page_no + 1)
-    xbmc_handler.end_directory()
+    if video_list:
+        items.append({
+            'label': 'Next Page',
+            'path': plugin.url_for('rsa_animate', page_no=page_no + 1)
+        })
+
+    return items
 
 if __name__ == '__main__':
-    params = xbmc_handler.get_params()
-    main(params)
+    plugin.run()
