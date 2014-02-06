@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="plugin.video.rsa" name="RSA Animate" version="0.0.3" provider-name="lextoumbourou">
+<addon id="plugin.video.rsa" name="RSA" version="0.0.3" provider-name="lextoumbourou">
 	<requires>
 		<import addon="xbmc.python" version="2.0"/>
                 <import addon="script.module.beautifulsoup" version="3.2.1"/>
@@ -11,7 +11,7 @@
 	</extension>
   <extension point="xbmc.addon.metadata">
 		<platform>all</platform>
-		<summary>Browse and stream videos from RSA Animate</summary>
-		<description>Get your knowledge on.</description>
+		<summary>Browse and stream videos from RSA</summary>
+		<description>Video content from RSA (Royal Society for the encouragement of Arts, Manufactures and Commerce): an enlightenment organisation committed to finding innovative practical solutions to today’s social challenges. Get your knowledge on.</description>
   </extension>
 </addon>
