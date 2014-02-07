@@ -78,9 +78,17 @@ def scrape_video_page(contents):
             youtube_id = youtube_id_meta['content'].split('/')[-1]
         else:
             youtube_id = youtube_id_meta['content']
-    
-        return youtube_id
 
+        return youtube_id
+    else:
+        iframes = soup.findAll('iframe')
+        if iframes:
+            url = iframes[-1]['src']
+            youtube_id = url.split('/')[-1]
+
+            return youtube_id
+    
+    return None
 
 
 def clean_rsa_animate_title(title):
