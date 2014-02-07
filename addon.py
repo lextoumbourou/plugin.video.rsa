@@ -8,13 +8,13 @@ plugin = Plugin()
 @plugin.route('/')
 def index():
     items = [{
-        'label': 'Videos',
+        'label': plugin.get_string(30000),
         'path': plugin.url_for('rsa_videos', page_no=1)
     }, {
-        'label': 'RSA Animate',
+        'label': plugin.get_string(30001),
         'path': plugin.url_for('rsa_animate')
     }, {
-        'label': 'RSA Shorts',
+        'label': plugin.get_string(30002),
         'path': plugin.url_for('rsa_shorts')
     }]
 
