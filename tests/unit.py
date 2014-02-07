@@ -35,6 +35,21 @@ class UnitTests(unittest.TestCase):
         youtube_id = rsa.scrape_video_page(contents)
         self.assertTrue(youtube_id == 'nh-hW0uG_zs')
 
+    def test_scrape_video_page_returns_youtube_id_when_id_not_in_meta_tag(self):
+        contents = """
+            <meta name="no_what_i_want" content="" /> 
+            <iframe src="the_wrong_one"></iframe>
+            <div id="new_div_1526142">
+                <iframe width="560" height="315"
+                        src="//www.youtube.com/embed/hIJnEppwN0M"
+                        frameborder="0" allowfullscreen>
+                </iframe>
+            </div>
+
+        """
+        youtube_id = rsa.scrape_video_page(contents)
+        self.assertTrue(youtube_id == 'hIJnEppwN0M')
+
 
 if __name__ == '__main__':
     unittest.main()
