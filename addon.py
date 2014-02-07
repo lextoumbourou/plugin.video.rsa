@@ -16,9 +16,6 @@ def index():
     }, {
         'label': 'RSA Shorts',
         'path': plugin.url_for('rsa_shorts')
-    }, {
-        'label': 'Watch Live',
-        'path': plugin.url_for('watch_live')
     }]
 
     return items
@@ -76,7 +73,7 @@ def rsa_videos(page_no):
 
 
 @plugin.route('/rsa_shorts')
-def rsa_shorts_videos():
+def rsa_shorts():
     """
     Get RSA Shorts videos from RSA module and send to XBMC
     """
@@ -101,16 +98,6 @@ def play_video(url):
         'plugin://plugin.video.youtube?action=play_video&videoid={0}'.format(
             youtube_id)
     )
-
-
-@plugin.route('/rsa_shorts')
-def rsa_shorts():
-    return []
-
-
-@plugin.route('/watch_live')
-def watch_live():
-    return []
 
 
 if __name__ == '__main__':

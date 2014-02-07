@@ -6,12 +6,8 @@ BASE_URL = 'http://comment.rsablogs.org.uk/videos/page/'
 VIDEO_PAGE_URL = (
     'http://www.thersa.org/events/video?result_4377_result_page={0}'
 )
-RSA_ANIMATE_PAGE_URL = (
-    'http://www.thersa.org/events/rsaanimate'
-)
-RSA_SHORTS_PAGE_URL = (
-    'http://www.thersa.org/events/rsashorts'
-)
+RSA_ANIMATE_PAGE_URL = 'http://www.thersa.org/events/rsaanimate'
+RSA_SHORTS_PAGE_URL = 'http://www.thersa.org/events/rsashorts'
 
 
 def get_videos(page_no):
@@ -72,7 +68,7 @@ def scrape_video_page(contents):
     soup = BeautifulSoup(contents)
     youtube_id_meta = soup.find('meta', attrs={'name': 'youtube_url'})
     if youtube_id_meta:
-        # Occassionally the meta tags with the youtube id have 
+        # Occassionally the meta tags with the youtube id have
         # URLs in them, this extracts the Youtube ID in such cases
         if youtube_id_meta['content'].startswith('http://youtu.be/'):
             youtube_id = youtube_id_meta['content'].split('/')[-1]
@@ -87,7 +83,7 @@ def scrape_video_page(contents):
             youtube_id = url.split('/')[-1]
 
             return youtube_id
-    
+
     return None
 
 
