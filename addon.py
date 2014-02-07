@@ -35,7 +35,9 @@ def rsa_animate():
     for video in video_list:
         items.append({
             'label': video['title'],
-            'path': plugin.url_for('play_video', youtube_id=video['url'])
+            'path': plugin.url_for('play_video', url=video['url']),
+            'thumbnail': video['thumbnail'],
+            'is_playable': True
         })
 
     if video_list:
