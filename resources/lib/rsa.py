@@ -1,5 +1,4 @@
 import requests
-import re
 from BeautifulSoup import BeautifulSoup
 
 BASE_URL = 'http://comment.rsablogs.org.uk/videos/page/'
@@ -85,17 +84,3 @@ def scrape_video_page(contents):
             return youtube_id
 
     return None
-
-
-def clean_rsa_animate_title(title):
-    """
-    Assorted cleanups
-    """
-    # Remove Unicode characters
-    title = re.sub('&#8211; ', '', title)
-    # Remove the unneccessary prefix
-    title = re.sub('RSA Animate', '', title)
-    # Remove white space
-    title = title.lstrip(' ')
-
-    return title
