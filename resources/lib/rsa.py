@@ -14,10 +14,10 @@ def get_videos(page_no):
     Return videos from RSA > Events > Videos as a list of dicts
     """
     contents = requests.get(VIDEO_PAGE_URL.format(page_no))
-    return scrape_videos(contents.text)
+    return scrape_video_list(contents.text)
 
 
-def scrape_videos(contents):
+def scrape_video_list(contents):
     """
     Turn RSA Video HTML into list of dicts
     """
@@ -44,25 +44,21 @@ def get_youtube_id_from_video(url):
     Turn RSA Video page HTML into a youtube ID string
     """
     contents = requests.get(url)
-    return scrape_video_page(contents.text)
+    return scrape_video_page(contents.text.encode('utf-8', 'ignore'))
 
 
 def scrape_video_page(contents):
     soup = BeautifulSoup(contents)
-    youtube_id = None
-    iframe = soup.findAll('iframe')[0]
-    if iframe is not None:
-        url = iframe["src"]
-        if url.startswith("//www.youtube.com/"):
-            youtube_id = url.split('/')[-1]
-    else:
-        obj = contents.find('object')
-        for param in obj.findAll("param"):
-            if param["name"] in ["movie", "src"]:
-                url = param["value"]
-                youtube_id = url.split('/')[-1]
-
-    return youtube_id
+    youtube_id_meta = soup.find('meta', attrs={'name': 'youtube_url'})
+    if youtube_id_meta:
+        # Occassionally the meta tags with the youtube id have 
+        # URLs in them, this extracts the Youtube ID in such cases
+        if youtube_id_meta['content'].startswith('http://youtu.be/'):
+            youtube_id = youtube_id_meta['content'].split('/')[-1]
+        else:
+            youtube_id = youtube_id_meta['content']
+    
+        return youtube_id
 
 
 def get_rsa_animate_videos():
@@ -70,41 +66,7 @@ def get_rsa_animate_videos():
     Returns videos from RSA > RSA Animate as list of dicts
     """
     contents = requests.get(RSA_ANIMATE_PAGE_URL)
-    return scrape_rsa_animate_videos(contents.text)
-
-
-def scrape_rsa_animate_videos(contents):
-    """
-    Scrapes the RSA Animate Video site
-    Returns an array of dictionaries
-    """
-    output = []
-    soup = BeautifulSoup(contents)
-    posts = soup.findAll('div', 'post')
-
-    for post in posts:
-        title = post.h3.a.string
-        title = clean_rsa_animate_title(title)
-
-        date = post.find(
-            'p', 'postmetadata').find('span', 'alignleft')
-        ifram = (post.findAll('p')[1]).find('iframe')
-        if ifram is not None:
-            url = ifram["src"]
-            if url.startswith("//www.youtube.com/"):
-                url = "http:" + url
-        else:
-            obj = post.findAll('p')[1].find('object')
-            for param in obj.findAll("param"):
-                if param["name"] in ["movie", "src"]:
-                    url = param["value"]
-
-        if url is not None and url.startswith("http://www.youtube.com/"):
-            final_title = "{0} ({1})".format(title, date.string)
-            output.append(
-                {'title': final_title, 'url': url})
-
-    return output
+    return scrape_video_list(contents.text.encode('utf-8', 'ignore'))
 
 
 def clean_rsa_animate_title(title):

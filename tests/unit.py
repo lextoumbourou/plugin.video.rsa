@@ -6,7 +6,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 from resources.lib import rsa
 
 class UnitTests(unittest.TestCase):
-    def test_scraped_video_page_returns_list_of_dicts(self):
+    def test_scrape_video_list_returns_correct_values(self):
         contents = """
             <div class="video-result">
                 <img src="thumb_url">
@@ -15,9 +15,26 @@ class UnitTests(unittest.TestCase):
                     <p></p>
           </div>
         """
-        results = rsa.scrape_videos(contents)
+        results = rsa.scrape_video_list(contents)
         self.assertTrue(results[0]['title'] == 'Video Title')
         self.assertTrue(results[0]['thumbnail'] == 'thumb_url')
+
+
+    def test_scrape_video_page_returns_youtube_id_if_available(self):
+        contents = """
+            <meta name="youtube_url" content="XBmJay_qdNc" />
+        """
+        youtube_id = rsa.scrape_video_page(contents)
+        self.assertTrue(youtube_id == 'XBmJay_qdNc')
+
+
+    def test_scrape_video_page_returns_youtube_id_when_url_in_meta_tag(self):
+        contents = """
+            <meta name="youtube_url" content="http://youtu.be/nh-hW0uG_zs" />
+        """
+        youtube_id = rsa.scrape_video_page(contents)
+        self.assertTrue(youtube_id == 'nh-hW0uG_zs')
+
 
 if __name__ == '__main__':
     unittest.main()
