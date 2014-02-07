@@ -1,7 +1,5 @@
-RSA Animate XBMC Script
+RSA Video Addon for XBMC
 =======================
-
-## Summary
 
 Watch videos from RSA (Royal Society for the encouragement of Arts, Manufactures and Commerce) on XBMC
 
