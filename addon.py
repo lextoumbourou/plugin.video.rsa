@@ -75,6 +75,25 @@ def rsa_videos(page_no):
     return items
 
 
+@plugin.route('/rsa_shorts')
+def rsa_shorts_videos():
+    """
+    Get RSA Shorts videos from RSA module and send to XBMC
+    """
+    items = []
+
+    video_list = rsa.get_rsa_shorts_videos()
+    for video in video_list:
+        items.append({
+            'label': video['title'],
+            'path': plugin.url_for('play_video', url=video['url']),
+            'thumbnail': video['thumbnail'],
+            'is_playable': True
+        })
+
+    return items
+
+
 @plugin.route('/play_video/<url>')
 def play_video(url):
     youtube_id = rsa.get_youtube_id_from_video(url)

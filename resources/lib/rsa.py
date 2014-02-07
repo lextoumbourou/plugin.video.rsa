@@ -4,9 +4,14 @@ from BeautifulSoup import BeautifulSoup
 
 BASE_URL = 'http://comment.rsablogs.org.uk/videos/page/'
 VIDEO_PAGE_URL = (
-    'http://www.thersa.org/events/video?result_4377_result_page={0}')
+    'http://www.thersa.org/events/video?result_4377_result_page={0}'
+)
 RSA_ANIMATE_PAGE_URL = (
-    'http://www.thersa.org/events/rsaanimate')
+    'http://www.thersa.org/events/rsaanimate'
+)
+RSA_SHORTS_PAGE_URL = (
+    'http://www.thersa.org/events/rsashorts'
+)
 
 
 def get_videos(page_no):
@@ -15,6 +20,22 @@ def get_videos(page_no):
     """
     contents = requests.get(VIDEO_PAGE_URL.format(page_no))
     return scrape_video_list(contents.text)
+
+
+def get_rsa_animate_videos():
+    """
+    Return videos from RSA > RSA Animate as list of dicts
+    """
+    contents = requests.get(RSA_ANIMATE_PAGE_URL)
+    return scrape_video_list(contents.text.encode('utf-8', 'ignore'))
+
+
+def get_rsa_shorts_videos():
+    """
+    Return videos from RSA > RSA Shorts as list of dicts
+    """
+    contents = requests.get(RSA_SHORTS_PAGE_URL)
+    return scrape_video_list(contents.text.encode('utf-8', 'ignore'))
 
 
 def scrape_video_list(contents):
@@ -60,13 +81,6 @@ def scrape_video_page(contents):
     
         return youtube_id
 
-
-def get_rsa_animate_videos():
-    """
-    Returns videos from RSA > RSA Animate as list of dicts
-    """
-    contents = requests.get(RSA_ANIMATE_PAGE_URL)
-    return scrape_video_list(contents.text.encode('utf-8', 'ignore'))
 
 
 def clean_rsa_animate_title(title):
