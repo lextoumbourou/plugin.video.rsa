@@ -1,0 +1,2 @@
+1.0.0
+* Port RSA Animate plugin to support entire RSA website
