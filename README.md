@@ -13,10 +13,8 @@ Frodo
 
 ## Tests
 
-### Unit
-
 ```
-> python resources/tests/unit.py
+> python -m unittest discover
 ```
 
 ## License
