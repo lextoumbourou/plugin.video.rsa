@@ -7,7 +7,7 @@ Watch videos from RSA (Royal Society for the encouragement of Arts, Manufactures
 
 ## Setup/Installation
 
-Install through System > Add-ons > Install from zip file > then open the zip file you downloaded 
+Available via official repo. Installation info available [here](http://wiki.xbmc.org/index.php?title=Add-ons).
 
 ## XBMC Version
 
